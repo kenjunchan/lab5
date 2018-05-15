@@ -140,8 +140,8 @@ public class BlackJackController implements Initializable {
 		ParallelTransition patTMoveRot = new ParallelTransition();
 
 		// Add transitions you want to execute currently to the parallel transition
-		patTMoveRot.getChildren().addAll(rotT, pathT);
-		// patTMoveRot.getChildren().addAll(pathT, rotT);
+		//patTMoveRot.getChildren().addAll(rotT, pathT);
+		patTMoveRot.getChildren().addAll(pathT, rotT);
 
 		// Create a new Parallel transition to fade in/fade out
 		ParallelTransition patTFadeInFadeOut = createFadeTransition(
@@ -363,30 +363,27 @@ public class BlackJackController implements Initializable {
 
 	private PathTransition CreatePathTransition(Point2D fromPoint, Point2D toPoint, ImageView img) {
 		Path path = new Path();
-
-		// TODO: Fix the Path transition. My Path looks terrible... do something cool :)
-
+		
 		path.getElements().add(new MoveTo(fromPoint.getX(), fromPoint.getY()));
-		path.getElements().add(new CubicCurveTo(toPoint.getX() * 2, toPoint.getY() * 2, toPoint.getX() / 3,
-				toPoint.getY() / 3, toPoint.getX(), toPoint.getY()));
-		// path.getElements().add(new CubicCurveTo(0, 120, 0, 240, 380, 240));
+		path.getElements().add(new CubicCurveTo(toPoint.getX() * 2, toPoint.getY() * 2, toPoint.getX() / 2,
+				toPoint.getY() / 3, toPoint.getX() + 20, toPoint.getY() + 50));
+		//path.getElements().add(new CubicCurveTo(0, 120, 0, 240, 380, 240));
 		PathTransition pathTransition = new PathTransition();
-		pathTransition.setDuration(Duration.millis(750));
+		pathTransition.setDuration(Duration.millis(500));
 		pathTransition.setPath(path);
 		pathTransition.setNode(img);
 		pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
 		pathTransition.setCycleCount((int) 1f);
 		pathTransition.setAutoReverse(false);
-
 		return pathTransition;
 
 	}
 
 	private ScaleTransition CreateScaleTransition(ImageView img) {
 		ScaleTransition st = new ScaleTransition(Duration.millis(iAnimationLength), img);
-		st.setByX(.25f);
-		st.setByY(.25f);
-		st.setCycleCount((int) 1f);
+		st.setByX(3f);
+		st.setByY(3f);
+		st.setCycleCount((int) 2f);
 		st.setAutoReverse(true);
 
 		return st;
@@ -395,8 +392,8 @@ public class BlackJackController implements Initializable {
 	private RotateTransition CreateRotateTransition(ImageView img) {
 
 		RotateTransition rotateTransition = new RotateTransition(Duration.millis(iAnimationLength / 2), img);
-		rotateTransition.setByAngle(180F);
-		rotateTransition.setCycleCount(2);
+		rotateTransition.setByAngle(205F);
+		rotateTransition.setCycleCount(4);
 		rotateTransition.setAutoReverse(false);
 
 		return rotateTransition;
@@ -429,8 +426,8 @@ public class BlackJackController implements Initializable {
 		});
 
 		FadeTransition fadeInTransition = new FadeTransition(Duration.millis(iAnimationLength), imgVFadeOut);
-		fadeInTransition.setFromValue(0.0);
-		fadeInTransition.setToValue(1.0);
+		fadeInTransition.setFromValue(-10.0);
+		fadeInTransition.setToValue(10.0);
 		ParallelTransition parallelTransition = new ParallelTransition();
 		parallelTransition.getChildren().addAll(fadeOutTransition, fadeInTransition);
 		return parallelTransition;
